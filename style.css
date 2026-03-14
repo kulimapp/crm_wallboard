@@ -1,0 +1,112 @@
+:root {
+    --bg-color: #1a2634; 
+    --accent-blue: #8cc1f3; 
+    --text-white: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.05);
+
+    /* --- Size Theme Variables (Updated Regular +20%) --- */
+    --container-max-width: 1350px;
+    
+    --logo-max-width: 390px;
+    --logo-margin-bottom: 46px;
+    --logo-margin-top: 23px;
+    --logo-shadow-blur: 12px;
+
+    --grid-gap: 34px;
+    --grid-margin-bottom: 67px;
+
+    --card-padding-y: 46px;
+    --card-padding-x: 23px;
+    --card-border-radius: 23px;
+    --card-backdrop-blur: 12px;
+
+    --value-font-size: 5.1rem;
+    --value-margin-bottom: 12px;
+    --label-font-size: 1.32rem;
+    --label-letter-spacing: 2.3px;
+
+    --offices-gap-y: 58px;
+    --offices-gap-x: 34px;
+    --offices-padding-top: 46px;
+
+    --office-card-padding-x: 23px;
+    --office-card-min-width: 286px;
+    --office-name-font-size: 1.5rem;
+    --office-name-margin-bottom: 6px;
+    --office-addr-font-size: 1.2rem;
+    --office-addr-margin-bottom: 5px;
+    --office-phone-font-size: 1.08rem;
+}
+
+body {
+    margin: 0; padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--text-white);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 100vh; overflow-y: auto;
+}
+
+.container { width: 90%; max-width: var(--container-max-width); text-align: center; }
+
+.logo { 
+    max-width: var(--logo-max-width); margin-bottom: var(--logo-margin-bottom); 
+    filter: drop-shadow(0 0 var(--logo-shadow-blur) rgba(140, 193, 243, 0.3));
+    margin-top: var(--logo-margin-top);
+}
+
+/* Метрики */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); margin-bottom: var(--grid-margin-bottom); }
+
+.card {
+    background: var(--card-bg);
+    padding: var(--card-padding-y) var(--card-padding-x);
+    border-radius: var(--card-border-radius);
+    border: 1px solid rgba(140, 193, 243, 0.1);
+    backdrop-filter: blur(var(--card-backdrop-blur));
+    position: relative;
+}
+
+.value {
+    font-size: var(--value-font-size); font-weight: bold;
+    color: var(--accent-blue); margin-bottom: var(--value-margin-bottom);
+    font-variant-numeric: tabular-nums;
+    display: block;
+}
+
+.label {
+    font-size: var(--label-font-size); text-transform: uppercase;
+    letter-spacing: var(--label-letter-spacing); opacity: 0.8;
+}
+
+/* Филиалы */
+.offices-grid {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: var(--offices-gap-y) var(--offices-gap-x); border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: var(--offices-padding-top);
+}
+
+.office-card { 
+    text-align: center; 
+    padding: 0 var(--office-card-padding-x);
+    width: 30%; min-width: var(--office-card-min-width); box-sizing: border-box;
+}
+
+/* Добавляем разделитель только МЕЖДУ карточками в ряду */
+.office-card + .office-card { border-left: 2px solid var(--accent-blue); }
+
+/* Убираем границы для 4-го (нижнего) филиала */
+.office-card:nth-child(4) { border-left: none; }
+
+.off-name { font-weight: bold; font-size: var(--office-name-font-size); color: var(--accent-blue); margin-bottom: var(--office-name-margin-bottom); }
+.off-addr { font-size: var(--office-addr-font-size); opacity: 0.9; margin-bottom: var(--office-addr-margin-bottom); }
+.off-phone { font-size: var(--office-phone-font-size); opacity: 0.6; }
+
+/* Анимация логотипа */
+.logo-anim { animation: logoPulse 0.8s ease-out; }
+@keyframes logoPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); color: #fff; }
+    100% { transform: scale(1); }
+}
