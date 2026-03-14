@@ -5,37 +5,37 @@
     --card-bg: rgba(255, 255, 255, 0.05);
 
     /* --- Size Theme Variables (Updated Regular +20%) --- */
-    --container-max-width: 1350px;
+    --container-max-width: 1215px;
     
-    --logo-max-width: 390px;
-    --logo-margin-bottom: 46px;
-    --logo-margin-top: 23px;
-    --logo-shadow-blur: 12px;
+    --logo-max-width: 351px;
+    --logo-margin-bottom: 41px;
+    --logo-margin-top: 21px;
+    --logo-shadow-blur: 11px;
 
-    --grid-gap: 34px;
-    --grid-margin-bottom: 67px;
+    --grid-gap: 31px;
+    --grid-margin-bottom: 60px;
 
-    --card-padding-y: 46px;
-    --card-padding-x: 23px;
-    --card-border-radius: 23px;
-    --card-backdrop-blur: 12px;
+    --card-padding-y: 41px;
+    --card-padding-x: 21px;
+    --card-border-radius: 21px;
+    --card-backdrop-blur: 11px;
 
-    --value-font-size: 5.1rem;
-    --value-margin-bottom: 12px;
-    --label-font-size: 1.32rem;
-    --label-letter-spacing: 2.3px;
+    --value-font-size: 4.6rem;
+    --value-margin-bottom: 11px;
+    --label-font-size: 1.2rem;
+    --label-letter-spacing: 2.1px;
 
-    --offices-gap-y: 58px;
-    --offices-gap-x: 34px;
-    --offices-padding-top: 46px;
+    --offices-gap-y: 52px;
+    --offices-gap-x: 31px;
+    --offices-padding-top: 41px;
 
-    --office-card-padding-x: 23px;
-    --office-card-min-width: 286px;
-    --office-name-font-size: 1.5rem;
-    --office-name-margin-bottom: 6px;
-    --office-addr-font-size: 1.2rem;
+    --office-card-padding-x: 21px;
+    --office-card-min-width: 257px;
+    --office-name-font-size: 1.35rem;
+    --office-name-margin-bottom: 5px;
+    --office-addr-font-size: 1.08rem;
     --office-addr-margin-bottom: 5px;
-    --office-phone-font-size: 1.08rem;
+    --office-phone-font-size: 0.97rem;
 }
 
 body {
