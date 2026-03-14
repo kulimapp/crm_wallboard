@@ -4,38 +4,7 @@
     --text-white: #ffffff;
     --card-bg: rgba(255, 255, 255, 0.05);
 
-    /* --- Size Theme Variables (Updated Regular +20%) --- */
-    --container-max-width: 1215px;
-    
-    --logo-max-width: 351px;
-    --logo-margin-bottom: 41px;
-    --logo-margin-top: 21px;
-    --logo-shadow-blur: 11px;
-
-    --grid-gap: 31px;
-    --grid-margin-bottom: 60px;
-
-    --card-padding-y: 41px;
-    --card-padding-x: 21px;
-    --card-border-radius: 21px;
-    --card-backdrop-blur: 11px;
-
-    --value-font-size: 4.6rem;
-    --value-margin-bottom: 11px;
-    --label-font-size: 1.2rem;
-    --label-letter-spacing: 2.1px;
-
-    --offices-gap-y: 52px;
-    --offices-gap-x: 31px;
-    --offices-padding-top: 41px;
-
-    --office-card-padding-x: 21px;
-    --office-card-min-width: 257px;
-    --office-name-font-size: 1.35rem;
-    --office-name-margin-bottom: 5px;
-    --office-addr-font-size: 1.08rem;
-    --office-addr-margin-bottom: 5px;
-    --office-phone-font-size: 0.97rem;
+    /* Size variables are dynamically set by script.js */
 }
 
 body {

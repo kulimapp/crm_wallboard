@@ -6,17 +6,17 @@ const UPDATE_INTERVAL = 5000; // 5 секунд
 // Базовые размеры увеличены на 20% от предыдущей версии
 const SIZES = {
     regular: {
-        containerMaxWidth: 1215, 
-        logoMaxWidth: 351, logoMarginBottom: 41, logoMarginTop: 21, logoShadowBlur: 11,
-        gridGap: 31, gridMarginBottom: 60,
-        cardPaddingY: 41, cardPaddingX: 21, cardBorderRadius: 21, cardBackdropBlur: 11,
-        valueFontSize: 4.6, valueMarginBottom: 11,
-        labelFontSize: 1.2, labelLetterSpacing: 2.1,
-        officesGapY: 52, officesGapX: 31, officesPaddingTop: 41,
-        officeCardPaddingX: 21, officeCardMinWidth: 257,
-        officeNameFontSize: 1.35, officeNameMarginBottom: 5,
-        officeAddrFontSize: 1.08, officeAddrMarginBottom: 5,
-        officePhoneFontSize: 0.97,
+        containerMaxWidth: 972, 
+        logoMaxWidth: 281, logoMarginBottom: 33, logoMarginTop: 17, logoShadowBlur: 9,
+        gridGap: 25, gridMarginBottom: 48,
+        cardPaddingY: 33, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
+        valueFontSize: 3.68, valueMarginBottom: 9,
+        labelFontSize: 0.96, labelLetterSpacing: 1.7,
+        officesGapY: 42, officesGapX: 25, officesPaddingTop: 33,
+        officeCardPaddingX: 17, officeCardMinWidth: 206,
+        officeNameFontSize: 1.08, officeNameMarginBottom: 4,
+        officeAddrFontSize: 0.86, officeAddrMarginBottom: 4,
+        officePhoneFontSize: 0.78,
     }
 };
 
