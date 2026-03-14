@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KulimDent Live Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #1a2634; 
+            --accent-blue: #8cc1f3; 
+            --text-white: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--text-white);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 100vh; overflow-y: auto;
+        }
+
+        .container { width: 90%; max-width: 1680px; text-align: center; }
+
+        .logo { 
+            max-width: 490px; margin-bottom: 56px; 
+            filter: drop-shadow(0 0 14px rgba(140, 193, 243, 0.3));
+            margin-top: 28px;
+        }
+
+        /* Метрики */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 42px; margin-bottom: 84px; }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 56px 28px;
+            border-radius: 28px;
+            border: 1px solid rgba(140, 193, 243, 0.1);
+            backdrop-filter: blur(14px);
+            position: relative;
+        }
+
+        .value {
+            font-size: 6.3rem; font-weight: bold;
+            color: var(--accent-blue); margin-bottom: 14px;
+            font-variant-numeric: tabular-nums;
+            display: block;
+        }
+
+        .label {
+            font-size: 1.54rem; text-transform: uppercase;
+            letter-spacing: 3px; opacity: 0.8;
+        }
+
+        /* Филиалы */
+        .offices-grid {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 70px 42px; border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 56px;
+        }
+
+        .office-card { 
+            text-align: center; 
+            padding: 0 28px;
+            width: 30%; min-width: 350px; box-sizing: border-box;
+        }
+        
+        /* Добавляем разделитель только МЕЖДУ карточками в ряду */
+        .office-card + .office-card { border-left: 2px solid var(--accent-blue); }
+
+        /* Убираем границы для 4-го (нижнего) филиала */
+        .office-card:nth-child(4) { border-left: none; }
+
+        .off-name { font-weight: bold; font-size: 1.82rem; color: var(--accent-blue); margin-bottom: 7px; }
+        .off-addr { font-size: 1.4rem; opacity: 0.9; margin-bottom: 4px; }
+        .off-phone { font-size: 1.26rem; opacity: 0.6; }
+
+        /* Анимация пульсации при обновлении */
+        /* .odometer-anim { animation: pulseValue 0.8s ease-out; } */
+        /*
+        @keyframes pulseValue {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); color: #fff; }
+            100% { transform: scale(1); }
+        }
+        */
+
+        /* Анимация логотипа */
+        .logo-anim { animation: logoPulse 0.8s ease-out; }
+        @keyframes logoPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); color: #fff; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="logo.png" alt="KulimDent" class="logo">
+
+        <div class="grid">
+            <div class="card">
+                <span class="value" id="m1-val">0</span>
+                <span class="label" id="m1-lab">Загрузка...</span>
+            </div>
+            <div class="card">
+                <span class="value" id="m2-val">0</span>
+                <span class="label" id="m2-lab">Загрузка...</span>
+            </div>
+            <div class="card">
+                <span class="value" id="m3-val">0</span>
+                <span class="label" id="m3-lab">Загрузка...</span>
+            </div>
+        </div>
+
+        <div class="offices-grid" id="offices-container">
+            </div>
+    </div>
+
+    <script>
+        // --- НАСТРОЙКИ ---
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwoLh6RBh_nTl7N6P85ND02oTqiWYb220Ry9P6utFFEG1Uy--94w3MTwHytDQMNmDLaaw/exec';
+        const UPDATE_INTERVAL = 5000; // 5 секунд
+
+        let lastData = { m1: 0, m2: 0, m3: 0 };
+
+        function animateNumber(id, start, end, duration) {
+            const obj = document.getElementById(id);
+
+            /*
+            obj.classList.remove('odometer-anim');
+            void obj.offsetWidth;
+            obj.classList.add('odometer-anim');
+            setTimeout(() => obj.classList.remove('odometer-anim'), 1000);
+            */
+
+            if (start === end) return;
+
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = current.toLocaleString('ru-RU');
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        async function refresh() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                // Анимация логотипа
+                const logo = document.querySelector('.logo');
+                logo.classList.remove('logo-anim');
+                void logo.offsetWidth; // Триггер перерисовки
+                logo.classList.add('logo-anim');
+
+                // Обновляем метрики
+                animateNumber("m1-val", 0, data.metrics.teeth.val, 2000);
+                animateNumber("m2-val", 0, data.metrics.clients.val, 2000);
+                animateNumber("m3-val", 0, data.metrics.cities.val, 1500);
+                
+                console.log('Полученные данные:', data); // Показываем данные в консоли для проверки
+                
+                document.getElementById('m1-lab').innerText = data.metrics.teeth.label;
+                document.getElementById('m2-lab').innerText = data.metrics.clients.label;
+                document.getElementById('m3-lab').innerText = data.metrics.cities.label;
+
+                lastData = {
+                    m1: data.metrics.teeth.val,
+                    m2: data.metrics.clients.val,
+                    m3: data.metrics.cities.val
+                };
+
+                // Обновляем филиалы
+                const offContainer = document.getElementById('offices-container');
+                offContainer.innerHTML = data.offices.map(off => `
+                    <div class="office-card">
+                        <div class="off-name">${off?.addr || '—'}</div>
+                        <div class="off-addr">${off?.name || '—'}</div>
+                        <div class="off-phone">${off?.phone || ''}</div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error("Ошибка обновления:", err);
+            }
+        }
+
+        setInterval(refresh, UPDATE_INTERVAL);
+        refresh();
+    </script>
+</body>
+</html>
