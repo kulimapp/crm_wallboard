@@ -22,49 +22,49 @@
             min-height: 100vh; overflow-y: auto;
         }
 
-        .container { width: 90%; max-width: 1680px; text-align: center; }
+        .container { width: 90%; max-width: 720px; text-align: center; }
 
         .logo { 
-            max-width: 490px; margin-bottom: 56px; 
-            filter: drop-shadow(0 0 14px rgba(140, 193, 243, 0.3));
-            margin-top: 28px;
+            max-width: 210px; margin-bottom: 24px; 
+            filter: drop-shadow(0 0 6px rgba(140, 193, 243, 0.3));
+            margin-top: 12px;
         }
 
         /* Метрики */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 42px; margin-bottom: 84px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 36px; }
         
         .card {
             background: var(--card-bg);
-            padding: 56px 28px;
-            border-radius: 28px;
+            padding: 24px 12px;
+            border-radius: 12px;
             border: 1px solid rgba(140, 193, 243, 0.1);
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(6px);
             position: relative;
         }
 
         .value {
-            font-size: 6.3rem; font-weight: bold;
-            color: var(--accent-blue); margin-bottom: 14px;
+            font-size: 2.7rem; font-weight: bold;
+            color: var(--accent-blue); margin-bottom: 6px;
             font-variant-numeric: tabular-nums;
             display: block;
         }
 
         .label {
-            font-size: 1.54rem; text-transform: uppercase;
-            letter-spacing: 3px; opacity: 0.8;
+            font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 1px; opacity: 0.8;
         }
 
         /* Филиалы */
         .offices-grid {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 70px 42px; border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 56px;
+            gap: 30px 18px; border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 24px;
         }
 
         .office-card { 
             text-align: center; 
-            padding: 0 28px;
-            width: 30%; min-width: 350px; box-sizing: border-box;
+            padding: 0 12px;
+            width: 30%; min-width: 150px; box-sizing: border-box;
         }
         
         /* Добавляем разделитель только МЕЖДУ карточками в ряду */
@@ -73,9 +73,9 @@
         /* Убираем границы для 4-го (нижнего) филиала */
         .office-card:nth-child(4) { border-left: none; }
 
-        .off-name { font-weight: bold; font-size: 1.82rem; color: var(--accent-blue); margin-bottom: 7px; }
-        .off-addr { font-size: 1.4rem; opacity: 0.9; margin-bottom: 4px; }
-        .off-phone { font-size: 1.26rem; opacity: 0.6; }
+        .off-name { font-weight: bold; font-size: 0.8rem; color: var(--accent-blue); margin-bottom: 3px; }
+        .off-addr { font-size: 0.6rem; opacity: 0.9; margin-bottom: 2px; }
+        .off-phone { font-size: 0.55rem; opacity: 0.6; }
 
         /* Анимация пульсации при обновлении */
         /* .odometer-anim { animation: pulseValue 0.8s ease-out; } */
