@@ -8,16 +8,18 @@
 }
 
 body {
-    margin: 0; padding: 0;
+    margin: 0; 
+    padding: 16px; /* 16px constraints on all edges */
+    box-sizing: border-box; /* Ensures padding is calculated inward */
     background-color: var(--bg-color);
     font-family: 'Segoe UI', sans-serif;
     color: var(--text-white);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    min-height: 100vh; overflow-y: auto;
+    min-height: 100vh; overflow-y: hidden; /* Using hidden prevents unwanted scrollbars on TVs */
 }
 
-.container { width: 90%; max-width: var(--container-max-width); text-align: center; }
+.container { width: 100%; max-width: var(--container-max-width); text-align: center; }
 
 .logo { 
     max-width: var(--logo-max-width); margin-bottom: var(--logo-margin-bottom); 
@@ -47,6 +49,24 @@ body {
 .label {
     font-size: var(--label-font-size); text-transform: uppercase;
     letter-spacing: var(--label-letter-spacing); opacity: 0.8;
+}
+
+/* Главная карточка */
+.main-card {
+    grid-column: 1 / -1;
+    background: rgba(140, 193, 243, 0.15);
+    border: 1px solid rgba(140, 193, 243, 0.4);
+}
+
+.main-card .value {
+    font-size: calc(var(--value-font-size) * 1.5);
+}
+
+.main-card .label {
+    font-size: calc(var(--label-font-size) * 1.2);
+    font-weight: bold;
+    color: var(--accent-blue);
+    opacity: 1;
 }
 
 /* Филиалы */

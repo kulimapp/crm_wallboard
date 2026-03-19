@@ -1,12 +1,14 @@
 // --- НАСТРОЙКИ ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbwoLh6RBh_nTl7N6P85ND02oTqiWYb220Ry9P6utFFEG1Uy--94w3MTwHytDQMNmDLaaw/exec';
-const UPDATE_INTERVAL = 5000; // 5 секунд
+const API_URL = 'https://script.google.com/macros/s/AKfycbwdhvmION8Mpd4jr_aHQTPY_vwwwwrrr31uKkorPBtoXTijjm0YYMLDOOK1U0nh2LRhOA/exec';
+const ANIMATION_INTERVAL   = 5000;   // 5 секунд (перезапуск анимаций)
+
+let cachedData = null;
 
 // --- Управление размерами (Энам) ---
 // Базовые размеры увеличены на 20% от предыдущей версии
 const SIZES = {
     regular: {
-        containerMaxWidth: 972, 
+        containerMaxWidth: 1920, 
         logoMaxWidth: 281, logoMarginBottom: 33, logoMarginTop: 17, logoShadowBlur: 9,
         gridGap: 25, gridMarginBottom: 48,
         cardPaddingY: 33, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
@@ -85,41 +87,75 @@ function animateNumber(id, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-async function refresh() {
+async function fetchData() {
     try {
         const response = await fetch(API_URL);
-        const data = await response.json();
-
-        // Анимация логотипа
-        const logo = document.querySelector('.logo');
-        logo.classList.remove('logo-anim');
-        void logo.offsetWidth; 
-        logo.classList.add('logo-anim');
-
-        // Обновляем метрики
-        animateNumber("m1-val", 0, data.metrics.teeth.val, 2000);
-        animateNumber("m2-val", 0, data.metrics.clients.val, 2000);
-        animateNumber("m3-val", 0, data.metrics.cities.val, 1500);
-        
-        document.getElementById('m1-lab').innerText = data.metrics.teeth.label;
-        document.getElementById('m2-lab').innerText = data.metrics.clients.label;
-        document.getElementById('m3-lab').innerText = data.metrics.cities.label;
-
-        // Обновляем филиалы
-        const offContainer = document.getElementById('offices-container');
-        offContainer.innerHTML = data.offices.map(off => `
-            <div class="office-card">
-                <div class="off-name">${off?.addr || '—'}</div>
-                <div class="off-addr">${off?.name || '—'}</div>
-                <div class="off-phone">${off?.phone || ''}</div>
-            </div>
-        `).join('');
-
+        cachedData = await response.json();
+        renderWallboard();
     } catch (err) {
-        console.error("Ошибка обновления:", err);
+        console.error("Ошибка загрузки данных:", err);
     }
 }
 
-setInterval(refresh, UPDATE_INTERVAL);
+function renderWallboard() {
+    if (!cachedData) return;
+    const data = cachedData;
+
+    // Анимация логотипа
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        logo.classList.remove('logo-anim');
+        void logo.offsetWidth; 
+        logo.classList.add('logo-anim');
+    }
+
+        // Обновляем метрики
+        const grid = document.querySelector('.grid');
+        if (grid && data.metrics) {
+            data.metrics.forEach(metric => {
+                let card = document.getElementById(`card-${metric.id}`);
+                if (!card) {
+                    card = document.createElement('div');
+                    card.id = `card-${metric.id}`;
+                    card.className = `card ${metric.isMain ? 'main-card' : ''}`;
+                    card.innerHTML = `
+                        <span class="value" id="val-${metric.id}">0</span>
+                        <span class="label" id="lab-${metric.id}">${metric.label}</span>
+                    `;
+                    grid.appendChild(card);
+                } else {
+                    document.getElementById(`lab-${metric.id}`).innerText = metric.label;
+                    card.className = `card ${metric.isMain ? 'main-card' : ''}`;
+                }
+                
+                // Всегда запускаем счетчик с нуля для визуального эффекта
+                animateNumber(`val-${metric.id}`, 0, metric.val, 2000);
+            });
+            
+            // Удаляем карточки, которых больше нет
+            const currentIds = data.metrics.map(m => `card-${m.id}`);
+            Array.from(grid.children).forEach(child => {
+                if (!currentIds.includes(child.id)) {
+                    grid.removeChild(child);
+                }
+            });
+        }
+
+        // Обновляем филиалы
+        const offContainer = document.getElementById('offices-container');
+        if (offContainer && data.offices) {
+            offContainer.innerHTML = data.offices.map(off => `
+                <div class="office-card">
+                    <div class="off-name">${off?.addr || '—'}</div>
+                    <div class="off-addr">${off?.name || '—'}</div>
+                    <div class="off-phone">${off?.phone || ''}</div>
+                </div>
+            `).join('');
+        }
+}
+
+// Инициализация интервала анимации (данные загружаются только при старте)
+setInterval(renderWallboard, ANIMATION_INTERVAL);
+
 applySize(currentSize);
-refresh();
+fetchData();
