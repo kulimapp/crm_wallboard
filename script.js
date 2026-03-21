@@ -19,6 +19,7 @@ const SIZES = {
         officeNameFontSize: 1.08, officeNameMarginBottom: 4,
         officeAddrFontSize: 0.86, officeAddrMarginBottom: 4,
         officePhoneFontSize: 0.78,
+        clockFontSize: 3, clockTop: 24, clockRight: 32,
     }
 };
 
@@ -71,6 +72,9 @@ function applySize(sizeProfileName) {
     setProp('officeAddrFontSize', profile.officeAddrFontSize, 'rem');
     setProp('officeAddrMarginBottom', profile.officeAddrMarginBottom, 'px');
     setProp('officePhoneFontSize', profile.officePhoneFontSize, 'rem');
+    setProp('clockFontSize', profile.clockFontSize, 'rem');
+    setProp('clockTop', profile.clockTop, 'px');
+    setProp('clockRight', profile.clockRight, 'px');
 }
 
 function animateNumber(id, start, end, duration) {
@@ -154,8 +158,25 @@ function renderWallboard() {
         }
 }
 
+// --- Часы (Время Алматы) ---
+function updateClock() {
+    let clockEl = document.getElementById('wall-clock');
+    if (!clockEl) {
+        clockEl = document.createElement('div');
+        clockEl.id = 'wall-clock';
+        document.body.appendChild(clockEl);
+    }
+    clockEl.innerText = new Date().toLocaleTimeString('ru-RU', { 
+        timeZone: 'Asia/Almaty', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
+}
+
 // Инициализация интервала анимации (данные загружаются только при старте)
 setInterval(renderWallboard, ANIMATION_INTERVAL);
+setInterval(updateClock, 1000); // Обновление часов каждую секунду
 
 applySize(currentSize);
+updateClock();
 fetchData();
