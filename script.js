@@ -1,8 +1,9 @@
 // --- НАСТРОЙКИ ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbwdhvmION8Mpd4jr_aHQTPY_vwwwwrrr31uKkorPBtoXTijjm0YYMLDOOK1U0nh2LRhOA/exec';
-const ANIMATION_INTERVAL   = 30000;   // 30 секунд (перезапуск анимаций)
+const API_URL = 'https://script.google.com/macros/s/AKfycbzHbvJO7_qk-asIHyCxlU-opZ_nyvFapnpbA3DaFP0tKlvJOs2yP8ti-QCkSb2Nv405jA/exec';
 
 let cachedData = null;
+let animationIntervalId = null;
+let currentAnimationInterval = 30000;
 
 // --- Управление размерами (Энам) ---
 // Базовые размеры увеличены на 20% от предыдущей версии
@@ -94,6 +95,7 @@ async function fetchData() {
     try {
         const response = await fetch(API_URL);
         cachedData = await response.json();
+        console.log("Данные с сервера:", cachedData);
         renderWallboard();
     } catch (err) {
         console.error("Ошибка загрузки данных:", err);
@@ -103,6 +105,16 @@ async function fetchData() {
 function renderWallboard() {
     if (!cachedData) return;
     const data = cachedData;
+
+    // Устанавливаем интервал анимации из Google Sheets
+    console.log("Полученные настройки (settings):", data.settings);
+    const newInterval = data.settings?.interval_odometer || currentAnimationInterval;
+    console.log("Применяемый интервал (newInterval):", newInterval);
+    if (newInterval !== currentAnimationInterval || !animationIntervalId) {
+        currentAnimationInterval = newInterval;
+        if (animationIntervalId) clearInterval(animationIntervalId);
+        animationIntervalId = setInterval(renderWallboard, currentAnimationInterval);
+    }
 
     // Анимация логотипа
     const logo = document.querySelector('.logo');
@@ -170,15 +182,14 @@ function updateClock() {
             document.body.appendChild(clockEl);
         }
     }
-    clockEl.innerText = new Date().toLocaleTimeString('ru-RU', { 
+    const timeString = new Date().toLocaleTimeString('ru-RU', { 
         timeZone: 'Asia/Almaty', 
         hour: '2-digit', 
         minute: '2-digit' 
     });
+    clockEl.innerHTML = timeString.replace(':', '<span class="blink">:</span>');
 }
 
-// Инициализация интервала анимации (данные загружаются только при старте)
-setInterval(renderWallboard, ANIMATION_INTERVAL);
 setInterval(updateClock, 1000); // Обновление часов каждую секунду
 
 applySize(currentSize);

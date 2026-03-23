@@ -41,6 +41,12 @@ body {
     filter: drop-shadow(0 0 12px rgba(140, 193, 243, 0.6)); /* Немного усилим свечение для эффекта LED-экрана */
 }
 
+/* Мигающий разделитель для часов */
+.blink {
+    animation: blinker 1s step-start infinite;
+}
+@keyframes blinker { 50% { opacity: 0; } }
+
 /* Метрики */
 .grid { 
     display: flex; 
