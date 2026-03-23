@@ -1,95 +1,6 @@
-// --- НАСТРОЙКИ ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbzHbvJO7_qk-asIHyCxlU-opZ_nyvFapnpbA3DaFP0tKlvJOs2yP8ti-QCkSb2Nv405jA/exec';
-
 let cachedData = null;
 let animationIntervalId = null;
 let currentAnimationInterval = 30000;
-
-// --- Управление размерами (Энам) ---
-// Базовые размеры увеличены на 20% от предыдущей версии
-const SIZES = {
-    regular: {
-        containerMaxWidth: 1920, 
-        logoMaxWidth: 281, logoMarginBottom: 12, logoMarginTop: 17, logoShadowBlur: 9,
-        gridGap: 25, gridMarginBottom: 32,
-        cardPaddingY: 16, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
-        valueFontSize: 3.68, valueMarginBottom: 9,
-        labelFontSize: 0.96, labelLetterSpacing: 1.7,
-        officesGapY: 42, officesGapX: 25, officesPaddingTop: 33,
-        officeCardPaddingX: 17, officeCardMinWidth: 206,
-        officeNameFontSize: 1.08, officeNameMarginBottom: 4,
-        officeAddrFontSize: 0.86, officeAddrMarginBottom: 4,
-        officePhoneFontSize: 0.78,
-        clockFontSize: 3, clockMarginBottom: 16,
-    }
-};
-
-function createScaledSize(baseSize, factor) {
-    const newSize = {};
-    for (const key in baseSize) {
-        if (typeof baseSize[key] === 'number') {
-            newSize[key] = baseSize[key] * factor;
-        } else {
-            newSize[key] = baseSize[key];
-        }
-    }
-    return newSize;
-}
-
-SIZES.large = createScaledSize(SIZES.regular, 1.2);  // +20%
-SIZES.xlarge = createScaledSize(SIZES.regular, 1.4); // +40%
-
-let currentSize = 'regular'; 
-
-function applySize(sizeProfileName) {
-    const profile = SIZES[sizeProfileName];
-    if (!profile) return;
-
-    const root = document.documentElement.style;
-    const setProp = (prop, value, unit) => root.setProperty(`--${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value + unit);
-
-    setProp('containerMaxWidth', profile.containerMaxWidth, 'px');
-    setProp('logoMaxWidth', profile.logoMaxWidth, 'px');
-    setProp('logoMarginBottom', profile.logoMarginBottom, 'px');
-    setProp('logoMarginTop', profile.logoMarginTop, 'px');
-    setProp('logoShadowBlur', profile.logoShadowBlur, 'px');
-    setProp('gridGap', profile.gridGap, 'px');
-    setProp('gridMarginBottom', profile.gridMarginBottom, 'px');
-    setProp('cardPaddingY', profile.cardPaddingY, 'px');
-    setProp('cardPaddingX', profile.cardPaddingX, 'px');
-    setProp('cardBorderRadius', profile.cardBorderRadius, 'px');
-    setProp('cardBackdropBlur', profile.cardBackdropBlur, 'px');
-    setProp('valueFontSize', profile.valueFontSize, 'rem');
-    setProp('valueMarginBottom', profile.valueMarginBottom, 'px');
-    setProp('labelFontSize', profile.labelFontSize, 'rem');
-    setProp('labelLetterSpacing', profile.labelLetterSpacing, 'px');
-    setProp('officesGapY', profile.officesGapY, 'px');
-    setProp('officesGapX', profile.officesGapX, 'px');
-    setProp('officesPaddingTop', profile.officesPaddingTop, 'px');
-    setProp('officeCardPaddingX', profile.officeCardPaddingX, 'px');
-    setProp('officeCardMinWidth', profile.officeCardMinWidth, 'px');
-    setProp('officeNameFontSize', profile.officeNameFontSize, 'rem');
-    setProp('officeNameMarginBottom', profile.officeNameMarginBottom, 'px');
-    setProp('officeAddrFontSize', profile.officeAddrFontSize, 'rem');
-    setProp('officeAddrMarginBottom', profile.officeAddrMarginBottom, 'px');
-    setProp('officePhoneFontSize', profile.officePhoneFontSize, 'rem');
-    setProp('clockFontSize', profile.clockFontSize, 'rem');
-    setProp('clockMarginBottom', profile.clockMarginBottom, 'px');
-}
-
-function animateNumber(id, start, end, duration) {
-    const obj = document.getElementById(id);
-    if (start === end) return;
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const current = Math.floor(progress * (end - start) + start);
-        obj.innerHTML = current.toLocaleString('ru-RU');
-        if (progress < 1) window.requestAnimationFrame(step);
-    };
-    window.requestAnimationFrame(step);
-}
 
 async function fetchData() {
     try {
@@ -115,6 +26,9 @@ function renderWallboard() {
         if (animationIntervalId) clearInterval(animationIntervalId);
         animationIntervalId = setInterval(renderWallboard, currentAnimationInterval);
     }
+
+    // Делегируем логику видео в отдельный модуль
+    // if (typeof handlePromoVideo === 'function') handlePromoVideo(data.settings); // Видео временно отключено
 
     // Анимация логотипа
     const logo = document.querySelector('.logo');
@@ -167,27 +81,6 @@ function renderWallboard() {
                 </div>
             `).join('');
         }
-}
-
-// --- Часы (Время Алматы) ---
-function updateClock() {
-    let clockEl = document.getElementById('wall-clock');
-    if (!clockEl) {
-        clockEl = document.createElement('div');
-        clockEl.id = 'wall-clock';
-        const logo = document.querySelector('.logo');
-        if (logo && logo.parentNode) {
-            logo.parentNode.insertBefore(clockEl, logo.nextSibling);
-        } else {
-            document.body.appendChild(clockEl);
-        }
-    }
-    const timeString = new Date().toLocaleTimeString('ru-RU', { 
-        timeZone: 'Asia/Almaty', 
-        hour: '2-digit', 
-        minute: '2-digit' 
-    });
-    clockEl.innerHTML = timeString.replace(':', '<span class="blink">:</span>');
 }
 
 setInterval(updateClock, 1000); // Обновление часов каждую секунду
