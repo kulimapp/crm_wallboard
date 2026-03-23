@@ -24,4 +24,4 @@ const SIZES = {
 let currentSize = 'regular'; 
 
 // Настройка мигания часов: 'COLON' (только двоеточие) или 'ALL' (все часы)
-const CLOCK_BLINK_MODE = 'COLON';
+const CLOCK_BLINK_MODE = 'ALL';
