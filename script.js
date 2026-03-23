@@ -9,9 +9,9 @@ let cachedData = null;
 const SIZES = {
     regular: {
         containerMaxWidth: 1920, 
-        logoMaxWidth: 281, logoMarginBottom: 33, logoMarginTop: 17, logoShadowBlur: 9,
-        gridGap: 25, gridMarginBottom: 48,
-        cardPaddingY: 33, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
+        logoMaxWidth: 281, logoMarginBottom: 12, logoMarginTop: 17, logoShadowBlur: 9,
+        gridGap: 25, gridMarginBottom: 32,
+        cardPaddingY: 16, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
         valueFontSize: 3.68, valueMarginBottom: 9,
         labelFontSize: 0.96, labelLetterSpacing: 1.7,
         officesGapY: 42, officesGapX: 25, officesPaddingTop: 33,
@@ -19,7 +19,7 @@ const SIZES = {
         officeNameFontSize: 1.08, officeNameMarginBottom: 4,
         officeAddrFontSize: 0.86, officeAddrMarginBottom: 4,
         officePhoneFontSize: 0.78,
-        clockFontSize: 3, clockTop: 24, clockRight: 32,
+        clockFontSize: 3, clockMarginBottom: 16,
     }
 };
 
@@ -73,8 +73,7 @@ function applySize(sizeProfileName) {
     setProp('officeAddrMarginBottom', profile.officeAddrMarginBottom, 'px');
     setProp('officePhoneFontSize', profile.officePhoneFontSize, 'rem');
     setProp('clockFontSize', profile.clockFontSize, 'rem');
-    setProp('clockTop', profile.clockTop, 'px');
-    setProp('clockRight', profile.clockRight, 'px');
+    setProp('clockMarginBottom', profile.clockMarginBottom, 'px');
 }
 
 function animateNumber(id, start, end, duration) {
@@ -164,7 +163,12 @@ function updateClock() {
     if (!clockEl) {
         clockEl = document.createElement('div');
         clockEl.id = 'wall-clock';
-        document.body.appendChild(clockEl);
+        const logo = document.querySelector('.logo');
+        if (logo && logo.parentNode) {
+            logo.parentNode.insertBefore(clockEl, logo.nextSibling);
+        } else {
+            document.body.appendChild(clockEl);
+        }
     }
     clockEl.innerText = new Date().toLocaleTimeString('ru-RU', { 
         timeZone: 'Asia/Almaty', 

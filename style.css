@@ -31,9 +31,7 @@ body {
 
 /* Часы */
 #wall-clock {
-    position: absolute;
-    top: var(--clock-top);
-    right: var(--clock-right);
+    margin-bottom: var(--clock-margin-bottom);
     font-family: 'DS-Digital', sans-serif;
     font-size: calc(var(--clock-font-size) * 1.3); /* Увеличим, так как цифровые шрифты визуально меньше */
     font-weight: normal;
@@ -44,9 +42,18 @@ body {
 }
 
 /* Метрики */
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); margin-bottom: var(--grid-margin-bottom); }
+.grid { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: var(--grid-gap); 
+    margin-bottom: var(--grid-margin-bottom); 
+}
 
 .card {
+    flex: 0 0 calc((100% - (var(--grid-gap) * 2)) / 3);
+    max-width: calc((100% - (var(--grid-gap) * 2)) / 3);
+    box-sizing: border-box;
     background: var(--card-bg);
     padding: var(--card-padding-y) var(--card-padding-x);
     border-radius: var(--card-border-radius);
@@ -69,7 +76,8 @@ body {
 
 /* Главная карточка */
 .main-card {
-    grid-column: 1 / -1;
+    flex: 0 0 100%;
+    max-width: 100%;
     background: rgba(140, 193, 243, 0.15);
     border: 1px solid rgba(140, 193, 243, 0.4);
 }
