@@ -1,6 +1,6 @@
 // --- НАСТРОЙКИ ---
 const API_URL = 'https://script.google.com/macros/s/AKfycbwdhvmION8Mpd4jr_aHQTPY_vwwwwrrr31uKkorPBtoXTijjm0YYMLDOOK1U0nh2LRhOA/exec';
-const ANIMATION_INTERVAL   = 5000;   // 5 секунд (перезапуск анимаций)
+const ANIMATION_INTERVAL   = 30000;   // 30 секунд (перезапуск анимаций)
 
 let cachedData = null;
 
