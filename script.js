@@ -28,7 +28,7 @@ function renderWallboard() {
     }
 
     // Делегируем логику видео в отдельный модуль
-    // if (typeof handlePromoVideo === 'function') handlePromoVideo(data.settings); // Видео временно отключено
+    if (typeof handlePromoVideo === 'function') handlePromoVideo(data.settings);
 
     // Анимация логотипа
     const logo = document.querySelector('.logo');

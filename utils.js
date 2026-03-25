@@ -84,6 +84,11 @@ function updateClock() {
         minute: '2-digit' 
     });
     
+    // Предотвращаем сброс CSS-анимации каждую секунду:
+    // Обновляем HTML только когда время реально изменилось (сменилась минута)
+    if (clockEl.dataset.time === timeString) return;
+    clockEl.dataset.time = timeString;
+
     if (typeof CLOCK_BLINK_MODE !== 'undefined' && CLOCK_BLINK_MODE === 'ALL') {
         clockEl.innerHTML = timeString;
         clockEl.classList.add('blink');
