@@ -12,6 +12,7 @@ function createScaledSize(baseSize, factor) {
     return newSize;
 }
 
+SIZES.small = createScaledSize(SIZES.regular, 0.8);  // -20%
 SIZES.large = createScaledSize(SIZES.regular, 1.2);  // +20%
 SIZES.xlarge = createScaledSize(SIZES.regular, 1.4); // +40%
 

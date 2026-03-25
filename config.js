@@ -21,7 +21,7 @@ const SIZES = {
 };
 
 // Текущий профиль размеров по умолчанию
-let currentSize = 'regular'; 
+let currentSize = 'small'; 
 
 // Настройка мигания часов: 'COLON' (только двоеточие) или 'ALL' (все часы)
 const CLOCK_BLINK_MODE = 'ALL';

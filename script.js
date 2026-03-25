@@ -19,7 +19,8 @@ function renderWallboard() {
 
     // Устанавливаем интервал анимации из Google Sheets
     console.log("Полученные настройки (settings):", data.settings);
-    const newInterval = data.settings?.interval_odometer || currentAnimationInterval;
+    // Берем значение в секундах из таблицы и переводим в миллисекунды
+    const newInterval = data.settings?.interval_odometer ? (data.settings.interval_odometer * 1000) : currentAnimationInterval;
     console.log("Применяемый интервал (newInterval):", newInterval);
     if (newInterval !== currentAnimationInterval || !animationIntervalId) {
         currentAnimationInterval = newInterval;
