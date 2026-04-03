@@ -10,7 +10,7 @@ const SIZES = {
         gridGap: 25, gridMarginBottom: 32,
         cardPaddingY: 16, cardPaddingX: 17, cardBorderRadius: 17, cardBackdropBlur: 9,
         valueFontSize: 3.68, valueMarginBottom: 9,
-        labelFontSize: 0.96, labelLetterSpacing: 1.7,
+        labelFontSize: 1.35, labelLetterSpacing: 1.7,
         officesGapY: 42, officesGapX: 25, officesPaddingTop: 33,
         officeCardPaddingX: 17, officeCardMinWidth: 206,
         officeNameFontSize: 1.08, officeNameMarginBottom: 4,
@@ -21,7 +21,7 @@ const SIZES = {
 };
 
 // Текущий профиль размеров по умолчанию
-let currentSize = 'small'; 
+let currentSize = 'xsmall';
 
 // Настройка мигания часов: 'COLON' (только двоеточие) или 'ALL' (все часы)
 const CLOCK_BLINK_MODE = 'ALL';

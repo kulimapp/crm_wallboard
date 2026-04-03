@@ -10,15 +10,20 @@
 }
 
 body {
-    margin: 0; 
-    padding: 16px; /* 16px constraints on all edges */
+    margin: 0;
+    /* Increased padding for left/right constraints */
+    padding: 32px;
     box-sizing: border-box; /* Ensures padding is calculated inward */
     background-color: var(--bg-color);
     font-family: 'Segoe UI', sans-serif;
     color: var(--text-white);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    min-height: 100vh; overflow-y: hidden; /* Using hidden prevents unwanted scrollbars on TVs */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Vertically center the main content block */
+    justify-content: center;
+    min-height: 100vh;
+    overflow-y: hidden; /* Using hidden prevents unwanted scrollbars on TVs */
 }
 
 .container { width: 100%; max-width: var(--container-max-width); text-align: center; }
@@ -153,5 +158,5 @@ body {
     transition: opacity 1s ease-in-out;
 }
 #promo-video-container video {
-    width: 100%; height: 100%; object-fit: cover;
+    width: 100%; height: 100%; object-fit: contain;
 }
